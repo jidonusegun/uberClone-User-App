@@ -26,24 +26,24 @@ export default function DestinationSearch() {
 
     const homePlace = {
         description: 'Home',
-        geometry: { location: { lat: 48.8152937, lng: 2.4597668 } },
+        geometry: { location: { lat: 6.4418967, lng: 2.9488494 } },
       };
       const workPlace = {
         description: 'Work',
-        geometry: { location: { lat: 48.8496818, lng: 2.2940881 } },
+        geometry: { location: { lat: 6.440677000000001, lng: 2.916105 } },
       };
 
     return (
         <SafeAreaView>
             <View style={styles.container}>
                 <GooglePlacesAutocomplete
-                    placeholder='From'
-                    onPress={(data = GooglePlaceData, details = GooglePlaceData | null) => {
-                        // 'details' is provided when fetchDetails = true
-                        setOriginPlace(data, details);
+                    placeholder='Where from?'
+                    onPress={(data, details = null) => {
+                        setOriginPlace({data, details});
                     }}
+                    fetchDetails
                     query={{
-                        key: 'AIzaSyA0quzEdLoP9Oe0q-Vf8F0y6VtGGCoySaE',
+                        key: 'AIzaSyDEnv304ZlcDYlVAv6fWhEb38bwG29RnsY',
                         language: 'en',
                     }}
                     suppressDefaultStyles
@@ -63,13 +63,13 @@ export default function DestinationSearch() {
 
                 <GooglePlacesAutocomplete
                     placeholder='Where to?'
-                    onPress={(data = GooglePlaceData, details = GooglePlaceData | null) => {
-                        // 'details' is provided when fetchDetails = true
-                        setDestinationPlace(data, details);
+                    onPress={(data , details =  null) => {
+                        
+                        setDestinationPlace({data, details});
                     }}
                     fetchDetails
                     query={{
-                        key: 'AIzaSyA0quzEdLoP9Oe0q-Vf8F0y6VtGGCoySaE',
+                        key: 'AIzaSyDEnv304ZlcDYlVAv6fWhEb38bwG29RnsY',
                         language: 'en',
                     }}
                     suppressDefaultStyles

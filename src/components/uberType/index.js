@@ -4,16 +4,20 @@ import styles from './style';
 import UberTypeRow from '../../components/uberTypeRow';
 import typesData from '../../assets/data/types';
 
-export default function UberType() {
-    
-    const confirm = () => {
-        console.warn({data: 'confirm'})
-    }
+export default function UberType({typeState, onSubmit}) {
+    const [selectedType, setSelectedType] = typeState
 
     return (
         <View style={styles.container}>
-            {typesData.map((type, index) => <UberTypeRow key={type.id} type={type} />)}
-            <Pressable onPress={confirm} style={{
+            {typesData.map((type, index) => 
+                <UberTypeRow 
+                    key={type.id} 
+                    type={type} 
+                    isSelected={type.type === selectedType}
+                    onPress={() => setSelectedType(type.type)}
+                />
+            )}
+            <Pressable onPress={onSubmit} style={{
                 width: '95%',
                 backgroundColor: 'black',
                 padding: 10,
@@ -24,7 +28,7 @@ export default function UberType() {
                     color: 'white',
                     fontWeight: 'bold',
                 }}>
-                    Confirm UberX
+                    Confirm {selectedType}
                 </Text>
             </Pressable>
         </View>
