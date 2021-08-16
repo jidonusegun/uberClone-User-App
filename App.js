@@ -4,12 +4,30 @@ import React, {useEffect} from 'react';
 import {PermissionsAndroid, Platform} from 'react-native';
 import * as Location from 'expo-location'
 import Router from './src/navigation/root';
+import { withAuthenticator } from 'aws-amplify-react-native'
+import Amplify from "aws-amplify";
+
+Amplify.configure({
+  Auth: { 
+    // REQUIRED --Amazon Cognito Identity Pool ID 
+    identityPoolId: 'us-east-1:b923d95f-93ab-4b83-9e3c-682e603d4320' ,  
+    // REQUIRED --Amazon Cognito Region 
+    region: 'us-east-1' ,  
+    // OPTIONAL --Amazon Cognito User Pool ID 
+    userPoolId: 'us-east-1_oo5ywGGHh' , 
+    // OPTIONAL --Amazon Cognito Web Client ID 
+    userPoolWebClientId: 'tqbhb4reuvevi893g6l45fml2' ,  
+    oauth: {} , 
+  } , 
+  Analytics: { 
+    disabled: true 
+  } ,
+});
 
 Location.installWebGeolocationPolyfill()
 navigator.geolocation.getCurrentPosition();
 
-export default function App() {
-
+const App = () => {
   const androidPermission = async () => {
     try {
       const granted = await PermissionsAndroid.request(
@@ -38,9 +56,6 @@ export default function App() {
     if(Platform.OS === 'android') {
       androidPermission()
     }
-    // else if(Platform.OS === 'ios') {
-    //   Geolocation.requestAuthorization()
-    // }
   },[])
 
   return (
@@ -50,3 +65,5 @@ export default function App() {
     </>
   );
 }
+
+export default withAuthenticator(App)

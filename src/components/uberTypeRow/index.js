@@ -1,9 +1,9 @@
 import React from 'react';
-import {View, Image, Text} from 'react-native';
+import {View, Image, Text, Pressable} from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 import styles from './style';
 
-export default function UberTypeRow({type}) {
+export default function UberTypeRow({type, onPress, isSelected}) {
 
     const getImage = () => {
         if(type.type === "UberX") {
@@ -16,7 +16,12 @@ export default function UberTypeRow({type}) {
     }
 
     return (
-        <View style={styles.container}>
+        <Pressable 
+            onPress={onPress} 
+            style={[styles.container, 
+                {backgroundColor: isSelected ? "#efefef" : 'white'}
+            ]}
+        >
             {/* image content */}
             <Image style={styles.image} source={getImage()} />
             <View style={styles.middleContainer}>
@@ -35,6 +40,6 @@ export default function UberTypeRow({type}) {
                     est. ${type.price}
                 </Text>
             </View>
-        </View>
+        </Pressable>
     )
 }

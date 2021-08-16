@@ -1,14 +1,35 @@
-import React from "react";
-import { View, Text, Pressable } from "react-native";
+import React, {useState, useEffect} from "react";
+import { View, Text, Pressable, ActivityIndicator } from "react-native";
 import {
-  DrawerContentScrollView,
   DrawerItemList,
 } from "@react-navigation/drawer";
+import {Auth} from 'aws-amplify';
 
 export default function CustomDrawer(props) {
+  const [loading, setLoading] = useState(false)
+  const [username, setUsername] = useState(null)
+
+  useEffect(() => {
+      async function getUser() {
+        const attributes = await Auth.currentAuthenticatedUser();
+        setUsername(attributes.signInUserSession.accessToken.payload.username)
+      }
+      getUser()
+  },[])
+  
+
+  const logout = async () => {
+      try {
+        setLoading(true)
+        await Auth.signOut();
+        setLoading(false)
+      } catch (error) {
+        console.log('Error signing out: ', error);
+      }
+  }
   return (
     <View {...props}>
-      <View style={{ backgroundColor: "#212121", padding: 15 }}>
+      <View style={{ backgroundColor: "#212121", padding: 15, paddingTop: 35 }}>
         {/* user row */}
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <View
@@ -21,7 +42,7 @@ export default function CustomDrawer(props) {
             }}
           ></View>
           <View>
-            <Text style={{ color: "white", fontSize: 24 }}>Segun Jidonu</Text>
+          <Text style={{ color: "white", fontSize: 24 }}>{username}</Text>
             <Text style={{ color: "lightgrey" }}>5.00 *</Text>
           </View>
         </View>
@@ -57,6 +78,12 @@ export default function CustomDrawer(props) {
         </Pressable>
       </View>
       <DrawerItemList {...props} />
+
+      <Pressable onPress={() => logout()}>
+          <Text style={{ color: "red", fontWeight: 'bold', marginLeft: 20 }}>
+            Logout {loading && <ActivityIndicator size="small" color="tomato" />}
+          </Text>
+        </Pressable>
     </View>
   );
 }

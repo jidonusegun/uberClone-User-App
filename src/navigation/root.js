@@ -1,11 +1,20 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import {View, Text} from 'react-native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import HomeNavigator from '../navigation/home';
 import CustomDrawer from './customDrawer';
+import {Auth} from 'aws-amplify';
 
 export default function RootNavigation() {
+    // const [user, setUser] = useState()
+    // useEffect(() => {
+    //     const getUser = async () => {
+    //       const userInfo = await Auth.currentAuthenticatedUser();
+    //       setUser(userInfo.signInUserSession.accessToken.payload.username)
+    //     }
+    //     getUser()
+    //   },[])
 
     const Drawer = createDrawerNavigator();
 
@@ -17,7 +26,7 @@ export default function RootNavigation() {
 
     return (
         <NavigationContainer>
-            <Drawer.Navigator drawerContent={(props) => <CustomDrawer {...props} />}>
+            <Drawer.Navigator drawerContent={(props) => <CustomDrawer {...props}/>}>
                 <Drawer.Screen name="Home" component={HomeNavigator} />
 
                 <Drawer.Screen name="Your Trips" >
